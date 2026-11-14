@@ -1,0 +1,97 @@
+#!/usr/bin/env node
+/**
+ * chinatrainplanner-cli v1.0.0
+ * China High-Speed Rail (G/D/C) Booking Window, Seat Class & Passport Gate CLI
+ * Official reference utility for https://chinatrainplanner.com
+ * License: MIT
+ */
+
+const ROUTES = [
+  {
+    "name": "ChinaTrainPlanner Home",
+    "url": "https://chinatrainplanner.com/"
+  },
+  {
+    "name": "China Bullet Train Routes & Corridor Directory",
+    "url": "https://chinatrainplanner.com/routes"
+  },
+  {
+    "name": "Hong Kong West Kowloon to Guangzhou HSR Guide",
+    "url": "https://chinatrainplanner.com/routes/hong-kong-to-guangzhou"
+  },
+  {
+    "name": "Beijing South to Shanghai Hongqiao 350 km/h Route Guide",
+    "url": "https://chinatrainplanner.com/routes/beijing-to-shanghai"
+  },
+  {
+    "name": "Shanghai to Beijing High-Speed Rail Schedule & Classes",
+    "url": "https://chinatrainplanner.com/routes/shanghai-to-beijing"
+  },
+  {
+    "name": "Beijing West to Xi'an North Bullet Train Guide",
+    "url": "https://chinatrainplanner.com/routes/beijing-to-xian"
+  }
+];
+
+const SPECS = [
+  {
+    "Train Prefix": "G-Series (Fuxing HSR)",
+    "Operating Speed": "300 - 350 km/h",
+    "Seat / Berth Tiers": "2nd, 1st, Premium, Business Pod",
+    "12306 Booking Window": "15 days prior (station slot UTC+8)",
+    "Adult Baggage Allowance": "20 kg, <= 130 cm rod-sum on HSR"
+  },
+  {
+    "Train Prefix": "D-Series (CRH / Sleeper)",
+    "Operating Speed": "200 - 250 km/h",
+    "Seat / Berth Tiers": "2nd, 1st, Soft/Dynamic Sleeper",
+    "12306 Booking Window": "15 days prior",
+    "Adult Baggage Allowance": "20 kg, <= 130 cm rod-sum on HSR"
+  },
+  {
+    "Train Prefix": "C-Series (Intercity)",
+    "Operating Speed": "200 - 350 km/h",
+    "Seat / Berth Tiers": "2nd, 1st, Unreserved Metro-style",
+    "12306 Booking Window": "15 days prior",
+    "Adult Baggage Allowance": "20 kg, <= 130 cm rod-sum"
+  },
+  {
+    "Train Prefix": "Z / T (Conventional)",
+    "Operating Speed": "120 - 160 km/h",
+    "Seat / Berth Tiers": "Hard Seat, Hard Sleeper, Soft Sleeper",
+    "12306 Booking Window": "15 days prior",
+    "Adult Baggage Allowance": "20 kg, <= 160 cm rod-sum"
+  }
+];
+
+const args = process.argv.slice(2);
+
+if (args.includes('--version') || args.includes('-v')) {
+  console.log('chinatrainplanner-cli v1.0.0 (https://chinatrainplanner.com)');
+  process.exit(0);
+}
+
+if (args.includes('--routes')) {
+  console.log(JSON.stringify({ domain: 'chinatrainplanner.com', endpoints: ROUTES }, null, 2));
+  process.exit(0);
+}
+
+if (args.includes('--specs') || args.includes('--json')) {
+  console.log(JSON.stringify({ domain: 'chinatrainplanner.com', benchmark: "China Railway Rolling Stock Classes & Foreign Passenger Rules (2026)", rows: SPECS }, null, 2));
+  process.exit(0);
+}
+
+console.log([
+  'ChinaTrainPlanner CLI (chinatrainplanner-cli v1.0.0)',
+  'China High-Speed Rail (G/D/C) Booking Window, Seat Class & Passport Gate CLI',
+  'Homepage: https://chinatrainplanner.com',
+  '',
+  'Usage:',
+  '  chinatrainplanner-cli --help       Show command overview and verified endpoints',
+  '  chinatrainplanner-cli --version    Print CLI version',
+  '  chinatrainplanner-cli --specs      Output domain technical specification matrix as JSON',
+  '  chinatrainplanner-cli --routes     Output verified production URLs as JSON',
+  '',
+  'Verified Production Endpoints:',
+  ...ROUTES.map((r) => '  - ' + r.name + ': ' + r.url),
+].join('\n'));
